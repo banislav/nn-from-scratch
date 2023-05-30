@@ -1,6 +1,6 @@
 import numpy as np
+
 from layer import Layer
-from typing import List
 
 
 class DenseLayer(Layer):
@@ -14,10 +14,10 @@ class DenseLayer(Layer):
                                         size=(n_inputs, n_outputs))
         self.biases = np.zeros_like(n_outputs)
 
-    def forward(self, X: List[List, List]) -> List[List, List]:
+    def forward(self, X: np.ndarray) -> np.ndarray:
         return np.dot(X, self.weights) + self.biases
 
-    def backward(self, X: np.array, grads: np.array):
+    def backward(self, X: np.ndarray, grads: np.ndarray):
         loss_grads = np.dot(self.weights, grads)
 
         self.weights -= np.dot(X, grads) * self.learning_rate
