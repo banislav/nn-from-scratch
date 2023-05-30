@@ -1,12 +1,12 @@
-from typing import List
+import numpy as np
 
 
 class Layer:
     def __init__(self):
         pass
 
-    def forward(self, input_data: List):
-        return input_data
+    def forward(self, X: np.ndarray):
+        return X
 
-    def backward(self, grads: List, input_data: List):
+    def backward(self, grads: np.ndarray, X: np.ndarray):
         pass
