@@ -8,7 +8,7 @@ class ReluLayer(Layer):
         super().__init__()
 
     def forward(self, input_data: np.ndarray):
-        return np.max(0, input_data)
+        return np.maximum(0, input_data)
 
     def backward(self, grads: np.ndarray, X: np.ndarray):
         return grads * (X > 0)

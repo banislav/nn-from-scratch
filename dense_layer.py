@@ -7,20 +7,16 @@ class DenseLayer(Layer):
     def __init__(self, n_inputs: int, n_outputs: int, learning_rate: int = 0.01):
         super().__init__()
         self.learning_rate = learning_rate
-        self.n_inputs = n_inputs
-        self.n_outputs = n_outputs
         self.weights = np.random.normal(loc=0.0,
                                         scale=np.sqrt(2 / (n_inputs + n_outputs)),
                                         size=(n_inputs, n_outputs))
-        self.biases = np.zeros_like(n_outputs)
+        self.biases = np.zeros((n_outputs,), dtype=np.float64)
 
     def forward(self, X: np.ndarray) -> np.ndarray:
         return np.dot(X, self.weights) + self.biases
 
     def backward(self, X: np.ndarray, grads: np.ndarray):
-        loss_grads = np.dot(self.weights, grads)
+        self.weights -= np.dot(X.T, grads) * self.learning_rate
+        self.biases -= self.learning_rate * np.array(grads.mean(axis=0) * X.shape[0]).T
 
-        self.weights -= np.dot(X, grads) * self.learning_rate
-        self.biases -= self.learning_rate * grads.mean(axis=0)*X.shape[0]
-
-        return loss_grads
+        return np.dot(grads, self.weights.T)
